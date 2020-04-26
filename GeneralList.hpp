@@ -37,7 +37,7 @@ class List {
 		~List() {
 			while(!empty()) {
 			//while(_size > 0) {
-				pop_back();
+				pop_front();
 			}
 		}
 		List &operator=(const List &Dlist) {
@@ -75,7 +75,7 @@ class List {
 			newNode->value = data;
 			newNode->prev = nullptr;
 
-			if(_front==nullptr) {
+			if(_back==nullptr) {
 				newNode->next=nullptr;
 				_back=newNode;
 			}
@@ -137,6 +137,15 @@ class List {
 			delete back_to_remove;
 			_size-=1;
 		}
+		bool search(Data search_value) {
+			Dlist *temp; 
+			for(temp=_front; temp!=nullptr; temp=temp->next) {
+				if(temp->value == search_value) {
+					return true;
+				}
+			}
+			return false;
+		}
 
 		// leave this alone
 		bool empty() const {
@@ -162,10 +171,17 @@ class List {
 
 		template<typename F> friend bool operator==(const List<F> &G, const List<F> &J);
 		template<typename F> friend bool operator!=(const List<F> &G, const List <F> &J); 
+		template <class V> friend std::ostream &operator<<(std::ostream &os, const List<V> &list);
 };
 template<typename F> bool operator==(const List<F> &G, const List<F> &J) {
 	auto *i = G._front;
 	auto *k = J._front;
 	for(auto *i = G._front, auto *k = J._front;)
-		
+
+template <class V> std::ostream &operator<<(std::ostream &os, const List<V> &list) {
+	for(auto *iter = list._front; iter != nullptr; iter = iter->next) {
+		os << iter->value << " ";
+		}
+	return os;
+}
 
